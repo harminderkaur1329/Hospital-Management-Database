@@ -1,0 +1,119 @@
+# 🏥 Hospital Management Database Schema
+
+This document describes the structure of the Hospital Management Database designed using PostgreSQL.
+
+---
+
+# 📋 Departments
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| department_id | INT | Primary Key | Unique department ID |
+| department_name | VARCHAR(100) | NOT NULL | Name of the department |
+
+---
+
+# 👨‍⚕️ Doctors
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| doctor_id | INT | Primary Key | Unique doctor ID |
+| doctor_name | VARCHAR(100) | NOT NULL | Doctor's full name |
+| specialization | VARCHAR(100) | NOT NULL | Medical specialization |
+| department_id | INT | Foreign Key | References Departments |
+| experience_years | INT | NOT NULL | Years of experience |
+| salary | DECIMAL(10,2) | NOT NULL | Monthly salary |
+
+---
+
+# 🧑 Patients
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| patient_id | INT | Primary Key | Unique patient ID |
+| first_name | VARCHAR(50) | NOT NULL | Patient first name |
+| last_name | VARCHAR(50) | NOT NULL | Patient last name |
+| age | INT | NOT NULL | Patient age |
+| gender | VARCHAR(10) | NOT NULL | Gender |
+| blood_group | VARCHAR(5) | NOT NULL | Blood group |
+| city | VARCHAR(100) | NOT NULL | City of residence |
+| phone | VARCHAR(15) | NOT NULL | Contact number |
+| admission_date | DATE | NOT NULL | Admission date |
+
+---
+
+# 📅 Appointments
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| appointment_id | INT | Primary Key | Unique appointment ID |
+| patient_id | INT | Foreign Key | References Patients |
+| doctor_id | INT | Foreign Key | References Doctors |
+| appointment_date | DATE | NOT NULL | Appointment date |
+| appointment_time | TIME | NOT NULL | Appointment time |
+| diagnosis | VARCHAR(200) | NOT NULL | Diagnosis |
+| status | VARCHAR(30) | NOT NULL | Appointment status |
+
+---
+
+# 💊 Medicines
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| medicine_id | INT | Primary Key | Unique medicine ID |
+| medicine_name | VARCHAR(100) | NOT NULL | Medicine name |
+| manufacturer | VARCHAR(100) | NOT NULL | Manufacturer |
+| unit_price | DECIMAL(10,2) | NOT NULL | Price per unit |
+
+---
+
+# 📝 Prescriptions
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| prescription_id | INT | Primary Key | Unique prescription ID |
+| appointment_id | INT | Foreign Key | References Appointments |
+| medicine_id | INT | Foreign Key | References Medicines |
+| dosage | VARCHAR(100) | NOT NULL | Dosage instructions |
+| quantity | INT | NOT NULL | Quantity prescribed |
+
+---
+
+# 💳 Bills
+
+| Column Name | Data Type | Constraint | Description |
+|-------------|----------|------------|-------------|
+| bill_id | INT | Primary Key | Unique bill ID |
+| appointment_id | INT | Foreign Key | References Appointments |
+| consultation_fee | DECIMAL(10,2) | NOT NULL | Consultation fee |
+| medicine_cost | DECIMAL(10,2) | NOT NULL | Medicine cost |
+| laboratory_charges | DECIMAL(10,2) | NOT NULL | Laboratory charges |
+| total_amount | DECIMAL(10,2) | NOT NULL | Total bill amount |
+| payment_method | VARCHAR(30) | NOT NULL | Payment method |
+| payment_status | VARCHAR(20) | NOT NULL | Payment status |
+| bill_date | DATE | NOT NULL | Bill date |
+
+---
+
+# 🔗 Database Relationships
+
+- One **Department** can have many **Doctors**.
+- One **Doctor** can have many **Appointments**.
+- One **Patient** can have many **Appointments**.
+- One **Appointment** can have many **Prescriptions**.
+- One **Medicine** can appear in many **Prescriptions**.
+- One **Appointment** has one **Bill**.
+
+---
+
+# 🗂️ Database Overview
+
+| Table | Purpose |
+|--------|---------|
+| Departments | Stores hospital departments |
+| Doctors | Stores doctor information |
+| Patients | Stores patient records |
+| Appointments | Stores appointment details |
+| Medicines | Stores medicine information |
+| Prescriptions | Stores medicines prescribed during appointments |
+| Bills | Stores patient billing information |
